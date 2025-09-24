@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <title>Esprimi il tuo desiderio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: system-ui, Arial, sans-serif; background: #f5f5f5; margin: 0; padding: 20px; }
+    .card { max-width: 600px; margin: 40px auto; background: #fff; padding: 20px; border-radius: 10px;
+            box-shadow: 0 4px 14px rgba(0,0,0,.1); }
+    h1 { margin-top: 0; }
+    textarea { width: 100%; min-height: 120px; padding: 10px; font-size: 16px; border: 1px solid #ccc; border-radius: 8px; }
+    button { margin-top: 12px; padding: 12px 16px; border: none; border-radius: 8px;
+             background: #007bff; color: #fff; font-size: 16px; cursor: pointer; }
+    button:hover { background: #0056b3; }
+    small { color: #666; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>✨ Esprimi il tuo desiderio</h1>
+    <p>Scrivi qui sotto il tuo desiderio e premi invia.</p>
+    <form name="wish-form" method="POST" data-netlify="true" action="thanks.html">
+      <textarea name="wish" placeholder="Il mio desiderio..." required></textarea>
+      <button type="submit">Invia desiderio</button>
+      <p><small>Non inserire dati personali o sensibili.</small></p>
+    </form>
+  </div>
+</body>
+</html>
