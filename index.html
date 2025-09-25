@@ -10,7 +10,7 @@
             box-shadow:0 4px 14px rgba(0,0,0,.1); }
     h1 { margin:0 0 10px; }
     textarea { width:100%; min-height:120px; padding:10px; font-size:16px; border:1px solid #ccc; border-radius:8px; }
-    button { margin-top:12px; padding:12px 16px; border:0; border-radius:8px; background:#007bff; color:#fff; font-size:16px; }
+    button { margin-top:12px; padding:12px 16px; border:0; border-radius:8px; background:#007bff; color:#fff; font-size:16px; cursor:pointer; }
   </style>
 </head>
 <body>
@@ -19,10 +19,28 @@
     <p>Write down your wish below and press send.</p>
 
     <!-- Formspree integration -->
-    <form action="https://formspree.io/f/xjkakppn" method="POST">
+    <form id="wishForm" action="https://formspree.io/f/xjkakppn" method="POST">
       <textarea name="wish" placeholder="My wish is..." required></textarea>
       <button type="submit">Send Wish</button>
     </form>
   </div>
+
+  <script>
+    const form = document.getElementById("wishForm");
+    form.addEventListener("submit", async function(e) {
+      e.preventDefault();
+      const data = new FormData(form);
+      const response = await fetch(form.action, {
+        method: form.method,
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+      if (response.ok) {
+        window.location.href = "thanks.html"; // redirect dopo invio
+      } else {
+        alert("Error sending wish. Please try again.");
+      }
+    });
+  </script>
 </body>
 </html>
