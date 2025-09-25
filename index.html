@@ -1,8 +1,8 @@
 <!doctype html>
-<html lang="it">
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Esprimi il tuo desiderio</title>
+  <title>Make a Wish</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body { font-family: system-ui, Arial, sans-serif; background: #f5f5f5; margin: 0; padding: 20px; }
@@ -18,12 +18,15 @@
 </head>
 <body>
   <div class="card">
-    <h1>✨ Esprimi il tuo desiderio</h1>
-    <p>Scrivi qui sotto il tuo desiderio e premi invia.</p>
+    <h1>✨ Make a Wish</h1>
+    <p>Write down your wish below and press send.</p>
+
+    <!-- Netlify form setup -->
     <form name="wish-form" method="POST" data-netlify="true" action="thanks.html">
-      <textarea name="wish" placeholder="Il mio desiderio..." required></textarea>
-      <button type="submit">Invia desiderio</button>
-      <p><small>Non inserire dati personali o sensibili.</small></p>
+      <input type="hidden" name="form-name" value="wish-form">
+      <textarea name="wish" placeholder="My wish is..." required></textarea>
+      <button type="submit">Send Wish</button>
+      <p><small>Please do not enter personal or sensitive data.</small></p>
     </form>
   </div>
 </body>
