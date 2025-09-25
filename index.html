@@ -19,14 +19,11 @@
     <h1>✨ Make a Wish</h1>
     <p>Write down your wish below and press send.</p>
 
-    <!-- Netlify Forms -->
-    <form id="wishForm" name="wish-form" method="POST" data-netlify="true">
-      <!-- Hidden field REQUIRED by Netlify -->
-      <input type="hidden" name="form-name" value="wish-form">
-      <textarea name="wish" placeholder="My wish is..." required></textarea>
-      <button type="submit">Send Wish</button>
-      <p><small>Please do not enter personal or sensitive data.</small></p>
-    </form>
+    <!-- FormSpree Forms -->
+    <form action="https://formspree.io/f/xjkakppn" method="POST">
+  <textarea name="wish" placeholder="My wish is..." required></textarea>
+  <button type="submit">Send Wish</button>
+</form>
   </div>
 
   <script>
