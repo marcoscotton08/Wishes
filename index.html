@@ -1,191 +1,180 @@
 <!doctype html>
-<html lang="it">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Make a Wish ✨</title>
+  <title>Make a Wish</title>
+  <meta name="color-scheme" content="light dark" />
   <style>
+    /* ===== Base, layout, and typography (minimal, centered) ===== */
     :root{
-      --bg1:#0d0f1a; --bg2:#121a3a; --bg3:#1a274d;
-      --glass: rgba(255,255,255,.08);
-      --accent:#86e3ff; --ok:#44d07b; --err:#ff6b6b;
-      --text:#e8ecf3; --muted:#aab4c3;
+      --bg: #ffffff;
+      --fg: #0f172a;          /* slate-900 */
+      --muted:#475569;        /* slate-600 */
+      --border:#e2e8f0;       /* slate-200 */
+      --field:#f8fafc;        /* slate-50 */
+      --accent:#0f62fe;       /* IBM blue, professional */
+      --accent-ink:#ffffff;
+      --ok:#16a34a;           /* green-600 */
+      --err:#dc2626;          /* red-600 */
+      --ring: rgba(15, 98, 254, .18);
+    }
+    @media (prefers-color-scheme: dark){
+      :root{
+        --bg:#0b0f18;
+        --fg:#e5e7eb;
+        --muted:#cbd5e1;
+        --border:#1f2937;
+        --field:#111826;
+      }
     }
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
-      margin:0; color:var(--text); font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      background: radial-gradient(1200px 800px at 10% 10%, #1e2a55 0%, transparent 60%),
-                  radial-gradient(1000px 600px at 90% 20%, #1a3b5f 0%, transparent 60%),
-                  linear-gradient(120deg, var(--bg1), var(--bg2), var(--bg3));
-      background-size: 200% 200%;
-      animation: bgShift 18s ease-in-out infinite;
-      overflow-x:hidden;
+      margin:0; background:var(--bg); color:var(--fg);
+      font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
     }
-    @keyframes bgShift{
-      0%{background-position: 0% 0%, 100% 0%, 0% 0%}
-      50%{background-position: 100% 100%, 0% 100%, 100% 100%}
-      100%{background-position: 0% 0%, 100% 0%, 0% 0%}
+    .page{
+      min-height:100vh;
+      display:grid; place-items:center;
+      padding:24px;
     }
-    .stars{position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:0}
-    .star{
-      position:absolute; top:-10px; width:2px; height:2px; background:rgba(255,255,255,.9);
-      border-radius:50%; filter:drop-shadow(0 0 6px rgba(255,255,255,.8));
-      animation: fall linear forwards; opacity:.85;
-    }
-    @keyframes fall{ to{ transform:translateY(110vh); opacity:0.15 } }
-
-    .wrap{min-height:100%; display:grid; place-items:center; padding:32px}
     .card{
-      position:relative; z-index:1;
-      width:min(760px, 92vw);
-      padding:28px 24px;
-      background:var(--glass);
-      border:1px solid rgba(255,255,255,.09);
-      border-radius:16px;
-      backdrop-filter: blur(10px) saturate(120%);
-      box-shadow: 0 10px 40px rgba(0,0,0,.35);
-      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+      width:min(680px, 100%);
+      margin-inline:auto;
+      background:var(--bg);
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:24px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.06);
     }
-    .card:hover{
-      transform: translateY(-2px);
-      border-color: rgba(134,227,255,.25);
-      box-shadow: 0 16px 50px rgba(10,20,40,.55);
-    }
-    h1{ margin:0 0 6px; font-size: clamp(22px, 3.6vw, 32px); letter-spacing:.3px }
-    .sub{ color:var(--muted); margin:0 0 18px; font-size:14px }
+    h1{ margin:0 0 4px; font-size:clamp(22px, 3.4vw, 28px); font-weight:700; letter-spacing:.2px }
+    .sub{ margin:0 0 18px; color:var(--muted); font-size:14px }
 
-    form{ display:grid; gap:16px; margin-top:8px }
+    /* ===== Form ===== */
+    form{ display:grid; gap:16px; margin-top:6px }
     label{ display:block; font-weight:600; margin-bottom:6px }
     .req::after{ content:" *"; color:var(--accent) }
+
     input[type="text"], textarea{
-      width:100%; border:1px solid rgba(255,255,255,.14);
-      background:rgba(10,14,24,.45); color:var(--text);
-      border-radius:12px; padding:12px 14px; outline:none;
-      transition: border-color .2s, box-shadow .2s, background .2s;
+      width:100%; border:1px solid var(--border); background:var(--field); color:inherit;
+      border-radius:10px; padding:12px 14px; outline:none;
+      transition: border-color .15s ease, box-shadow .15s ease, background .15s ease;
     }
-    textarea{ min-height:140px; resize:vertical; line-height:1.45 }
+    textarea{ min-height:140px; resize:vertical }
     input:focus, textarea:focus{
-      border-color:var(--accent);
-      box-shadow: 0 0 0 4px rgba(134,227,255,.14);
-      background:rgba(10,14,24,.6);
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px var(--ring);
+      background: var(--bg);
     }
     .row{ display:grid; gap:14px }
     .hint{ font-size:12px; color:var(--muted); margin-top:6px }
-    .error{ color:var(--err); font-size:13px; margin-top:6px; display:none }
+    .err{ color:var(--err); font-size:13px; margin-top:6px; display:none }
     .ok{ color:var(--ok) }
     .counter{ font-size:12px; color:var(--muted); text-align:right }
 
+    /* Honeypot (hidden) */
     .hp{ position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden }
 
+    /* Private mode (simple switch) */
     .toggle{
-      display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:10px;
-      background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.08)
+      display:flex; align-items:center; gap:12px; padding:10px 12px; border-radius:10px;
+      border:1px solid var(--border); background:var(--field)
     }
-    .switch{ position:relative; width:46px; height:26px; border-radius:999px;
-      background:rgba(255,255,255,.2); border:1px solid rgba(255,255,255,.18); cursor:pointer }
+    .switch{ position:relative; width:44px; height:24px; border-radius:999px; background:#cbd5e1; cursor:pointer; flex:0 0 auto }
     .switch input{ display:none }
-    .knob{ position:absolute; top:2px; left:2px; width:22px; height:22px; border-radius:50%;
-      background:#fff; transition:left .18s ease }
+    .knob{ position:absolute; top:2px; left:2px; width:20px; height:20px; border-radius:50%; background:#fff; transition:left .16s ease }
     .switch input:checked + .knob{ left:22px }
-    .submit{
-      display:inline-flex; align-items:center; gap:8px;
-      padding:12px 16px; border-radius:12px; border:1px solid rgba(255,255,255,.18);
-      background:linear-gradient(180deg, rgba(134,227,255,.25), rgba(134,227,255,.18));
-      color:var(--text); cursor:pointer; font-weight:700;
-      transition: transform .12s ease, box-shadow .12s ease, filter .12s ease;
+    @media (prefers-color-scheme: dark){
+      .switch{ background:#475569 }
+      .knob{ background:#e5e7eb }
     }
-    .submit:disabled{ opacity:.6; cursor:not-allowed; filter:grayscale(20%) }
-    .submit:hover{ transform: translateY(-1px) }
-    .status{ min-height:22px; font-size:14px; margin-top:6px }
 
+    /* Submit button (professional) */
+    .submit{
+      display:inline-flex; align-items:center; justify-content:center; gap:8px;
+      padding:12px 16px; border-radius:10px; border:1px solid var(--accent);
+      background:var(--accent); color:var(--accent-ink); cursor:pointer; font-weight:700;
+      transition: filter .12s ease, transform .06s ease;
+    }
+    .submit:hover{ filter:brightness(1.05) }
+    .submit:active{ transform: translateY(1px) }
+    .submit:disabled{ opacity:.6; cursor:not-allowed }
+
+    .status{ min-height:22px; font-size:14px; margin-top:4px }
+
+    /* Public preview (visible only when Private mode = off) */
     .preview{
-      margin-top:14px; padding:14px; border-radius:12px;
-      background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.08);
-      font-size:14px; display:none;
+      margin-top:6px; padding:12px; border-radius:10px; border:1px solid var(--border);
+      background:var(--field); font-size:14px; display:none;
     }
     .preview h3{ margin:0 0 8px; font-size:15px }
-    .fade-in{ animation: fade .28s ease }
-    @keyframes fade{ from{opacity:0; transform:translateY(3px)} to{opacity:1; transform:none} }
+    .fade-in{ animation: fade .18s ease }
+    @keyframes fade{ from{opacity:0; transform:translateY(2px)} to{opacity:1; transform:none} }
 
     .small{ font-size:12px; color:var(--muted) }
     .small a{ color:var(--accent); text-underline-offset:2px }
   </style>
 </head>
 <body>
-  <div class="stars" aria-hidden="true"></div>
-
-  <div class="wrap">
-    <div class="card">
-      <h1>Make a Wish ✨</h1>
-      <p class="sub">Scrivi il tuo desiderio. Se attivi <strong>Modalità privata</strong>, il desiderio <em>non verrà mostrato sul sito</em>, ma <strong>mi arriva comunque</strong> in modo riservato.</p>
+  <main class="page">
+    <section class="card" aria-labelledby="title">
+      <h1 id="title">Make a Wish</h1>
+      <p class="sub">Write your wish below. If you enable <strong>Private mode</strong>, your wish
+        <em>won’t be shown on the site</em>, but I will still receive it privately.</p>
 
       <form id="wishForm" novalidate>
-        <!-- honeypot -->
+        <!-- Honeypot -->
         <div class="hp">
-          <label>Lascia vuoto questo campo <input type="text" name="_gotcha" autocomplete="off"></label>
+          <label>Leave this field empty <input type="text" name="_gotcha" autocomplete="off"></label>
         </div>
 
         <div class="row">
           <div>
-            <label class="req" for="name">Il tuo nome</label>
-            <input id="name" name="name" type="text" maxlength="60" placeholder="Es. Luca" required />
+            <label class="req" for="name">Your name</label>
+            <input id="name" name="name" type="text" maxlength="60" placeholder="e.g., Alex" required />
             <div class="counter" id="nameCount">0 / 60</div>
-            <div class="error" id="nameErr">Inserisci il nome (min. 2 caratteri).</div>
+            <div class="err" id="nameErr">Please enter your name (at least 2 characters).</div>
           </div>
 
           <div>
-            <label class="req" for="wish">Il tuo desiderio</label>
-            <textarea id="wish" name="wish" maxlength="500" placeholder="Scrivi qui il desiderio..." required></textarea>
+            <label class="req" for="wish">Your wish</label>
+            <textarea id="wish" name="wish" maxlength="500" placeholder="Write your wish here..." required></textarea>
             <div class="counter" id="wishCount">0 / 500</div>
-            <div class="error" id="wishErr">Scrivi il desiderio (min. 5 caratteri).</div>
-            <div class="hint">Consiglio: niente dati sensibili. Seleziona “Privata” se non vuoi l’anteprima pubblica.</div>
+            <div class="err" id="wishErr">Please write a wish (at least 5 characters).</div>
+            <div class="hint">Tip: avoid sensitive personal data. Choose “Private mode” if you don’t want a public preview.</div>
           </div>
         </div>
 
-        <div class="toggle">
-          <label class="switch" title="Non mostra l'anteprima sul sito">
-            <input type="checkbox" id="privateMode">
-            <span class="knob"></span>
+        <div class="toggle" role="group" aria-label="Privacy options">
+          <label class="switch" title="Hide public preview on this page">
+            <input type="checkbox" id="privateMode" aria-label="Private mode">
+            <span class="knob" aria-hidden="true"></span>
           </label>
           <div>
-            <div><strong>Modalità privata</strong></div>
-            <div class="small">Non mostriamo l’anteprima sul sito, ma il desiderio mi viene inviato comunque.</div>
+            <div><strong>Private mode</strong></div>
+            <div class="small">Hides the on-page preview. Your wish is still submitted privately.</div>
           </div>
         </div>
 
-        <button class="submit" id="submitBtn" type="submit">Invia ✨</button>
+        <button class="submit" id="submitBtn" type="submit" aria-label="Submit wish">Submit</button>
         <div class="status" id="statusArea" aria-live="polite"></div>
 
-        <div class="preview" id="previewBox">
-          <h3>Anteprima pubblica</h3>
+        <div class="preview" id="previewBox" aria-live="polite">
+          <h3>Public preview</h3>
           <div id="previewBody"></div>
         </div>
       </form>
 
       <p class="small" style="margin-top:10px">
-        Protetto da filtri anti-spam (honeypot + rate limit lato server). Consegna via Formspree.
+        Anti-spam: honeypot + Formspree filtering. By submitting, you agree to our basic handling for wishes.
       </p>
-    </div>
-  </div>
+    </section>
+  </main>
 
   <script>
-    // ===== stelle soft
-    const stars = document.querySelector('.stars');
-    function spawnStar(){
-      const s = document.createElement('div');
-      s.className='star';
-      const size = Math.random()*2 + 1;
-      s.style.width = size+'px'; s.style.height = size+'px';
-      s.style.left = (Math.random()*100)+'vw';
-      const dur = 6 + Math.random()*6;
-      s.style.animationDuration = dur+'s';
-      stars.appendChild(s);
-      setTimeout(()=>s.remove(), dur*1000);
-    }
-    setInterval(spawnStar, 350);
-
-    // ===== form logic
+    // ===== DOM refs
     const form = document.getElementById('wishForm');
     const nameI = document.getElementById('name');
     const wishI = document.getElementById('wish');
@@ -199,36 +188,37 @@
     const statusArea = document.getElementById('statusArea');
     const submitBtn = document.getElementById('submitBtn');
 
-    function updateCounter(el, out){ out.textContent = el.value.length + ' / ' + el.maxLength; }
-    nameI.addEventListener('input', ()=>updateCounter(nameI, nameCount));
-    wishI.addEventListener('input', ()=>updateCounter(wishI, wishCount));
-    updateCounter(nameI, nameCount); updateCounter(wishI, wishCount);
-
-    function validate(){
-      let ok = true;
-      // nome
-      if(!nameI.value || nameI.value.trim().length < 2){
-        nameErr.style.display='block'; ok=false;
-      } else nameErr.style.display='none';
-      // wish
-      if(!wishI.value || wishI.value.trim().length < 5){
-        wishErr.style.display='block'; ok=false;
-      } else wishErr.style.display='none';
-      return ok;
-    }
-
+    // ===== Helpers
+    const updateCounter = (el, out) => out.textContent = el.value.length + ' / ' + el.maxLength;
+    const escapeHtml = (str) => str.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
     function makePreview(){
       const n = nameI.value.trim();
       const w = wishI.value.trim();
       previewBody.innerHTML =
-        `<div><strong>${escapeHtml(n)}</strong> ha scritto:</div>
+        `<div><strong>${escapeHtml(n || 'Someone')}</strong> wrote:</div>
          <div style="margin-top:6px; white-space:pre-wrap">${escapeHtml(w)}</div>`;
     }
 
-    function escapeHtml(str){
-      return str.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+    // ===== Counters
+    nameI.addEventListener('input', ()=>updateCounter(nameI, nameCount));
+    wishI.addEventListener('input', ()=>updateCounter(wishI, wishCount));
+    updateCounter(nameI, nameCount); updateCounter(wishI, wishCount);
+
+    // ===== Validation
+    function validate(){
+      let ok = true;
+      if(!nameI.value || nameI.value.trim().length < 2){
+        nameErr.style.display = 'block'; ok = false;
+      } else nameErr.style.display = 'none';
+
+      if(!wishI.value || wishI.value.trim().length < 5){
+        wishErr.style.display = 'block'; ok = false;
+      } else wishErr.style.display = 'none';
+
+      return ok;
     }
 
+    // ===== Private toggle -> preview visibility
     privateMode.addEventListener('change', ()=>{
       if(privateMode.checked){
         previewBox.style.display='none';
@@ -236,18 +226,25 @@
         makePreview();
         previewBox.style.display='block';
         previewBox.classList.add('fade-in');
-        setTimeout(()=>previewBox.classList.remove('fade-in'), 300);
+        setTimeout(()=>previewBox.classList.remove('fade-in'), 220);
       }
     });
 
-    nameI.addEventListener('input', ()=>{ if(!privateMode.checked){ makePreview(); previewBox.style.display='block'; }});
-    wishI.addEventListener('input', ()=>{ if(!privateMode.checked){ makePreview(); previewBox.style.display='block'; }});
+    // Live preview when not private
+    const livePreview = ()=>{
+      if(!privateMode.checked && (nameI.value || wishI.value)){
+        makePreview();
+        previewBox.style.display='block';
+      }
+    };
+    nameI.addEventListener('input', livePreview);
+    wishI.addEventListener('input', livePreview);
 
+    // ===== Submit
     form.addEventListener('submit', async (e)=>{
       e.preventDefault();
       if(!validate()) return;
 
-      // se non privato, mostra anteprima
       if(!privateMode.checked){
         makePreview();
         previewBox.style.display='block';
@@ -256,46 +253,38 @@
       }
 
       submitBtn.disabled = true;
-      statusArea.textContent = 'Invio in corso...';
+      statusArea.textContent = 'Submitting…';
 
-      // prepara payload per Formspree
       const data = new FormData(form);
       data.append('privateMode', privateMode.checked ? 'true' : 'false');
 
       try{
         const resp = await fetch('https://formspree.io/f/xjkakppn', {
-          method: 'POST',
-          body: data,
-          headers: { 'Accept': 'application/json' }
+          method:'POST',
+          body:data,
+          headers:{ 'Accept':'application/json' }
         });
 
-        if (resp.ok){
-          statusArea.innerHTML = 'Desiderio inviato! Grazie ✨';
+        if(resp.ok){
+          statusArea.textContent = 'Wish submitted. Thank you!';
           statusArea.classList.add('ok');
-          confetti();
           form.reset();
           updateCounter(nameI, nameCount); updateCounter(wishI, wishCount);
           previewBox.style.display='none';
-          submitBtn.disabled = false;
-        } else {
+        }else{
           const txt = await resp.text();
-          statusArea.innerHTML = 'Ops, qualcosa è andato storto. Riprova tra poco.';
           console.error('Formspree error:', txt);
-          submitBtn.disabled = false;
+          statusArea.textContent = 'Something went wrong. Please try again.';
+          statusArea.classList.remove('ok');
         }
       }catch(err){
-        statusArea.innerHTML = 'Connessione assente o lenta. Riprova.';
         console.error(err);
+        statusArea.textContent = 'Network issue. Please try again.';
+        statusArea.classList.remove('ok');
+      }finally{
         submitBtn.disabled = false;
       }
     });
-
-    // micro-confetti (stelline veloci)
-    function confetti(){
-      for(let i=0;i<16;i++){
-        setTimeout(spawnStar, i*60);
-      }
-    }
   </script>
 </body>
 </html>
